@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<resource xmlns='http://schema.modapt.com/pub/modapt-resource/1.0' ttl='3600'>
+	<metadata>
+		<version>1.0</version>
+	</metadata>
+
+	<rule match-host='*'>
+		<delegate url='app/rules.xml' />
+	</rule>
+</resource>
