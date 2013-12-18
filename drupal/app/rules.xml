@@ -1,68 +1,47 @@
 <?xml version="1.0" ?>
 <resource xmlns="http://schema.modapt.com/pub/modapt-resource/1.0" ttl="3600">
 
-	<rule name="drupal.init" comment="Initialize application macros">
-		<prerequisite>
-			<defmac name="origin_site_hostname" value="www.carreracup.com.au" />
-			<defmac name="origin_site_host" value="184.106.55.78" />
-			<defmac name="request_host" expr="request.host" />
-			<defmac name="request_path" expr="request.path" />
-		</prerequisite>
-	</rule>
+	<!-- Renegade Element documentation is available at http://www.renegade.mx/doc/Renegade/XML/Resource/Elements -->
+
+	<!-- This include references the library found within the Renegade Management Console's project zone.
+	This works because we are routing to this rules file via a project within the RMC. -->
+	<include url="~/library/rulebook/1.0/framework.xml"/>
 
 
-	<rule name="drupal.proxy" comment="Standard proxy">
-		<apply name="drupal.init" />
-		<apply name="drupal.page_builder" />
-		<apply name="drupal.page_builder.user" />
+	<rule name="user.page_edits">
+
 		<compose>
-			<fetch type="proxy">
-				<set host="${origin_site_hostname}" connection-host="${origin_site_host}" />
-			</fetch>
+			<deliver if="content_has_errors || !content_is_html"/>
+			<!-- Put any edits to html pages here -->
+
 		</compose>
+
 	</rule>
 
 
-	<rule name="drupal.proxy.managed" comment="Managed cookie proxy">
-		<apply name="drupal.init" />
-		<apply name="drupal.page_builder" />
-		<apply name="drupal.page_builder.user" />
-		<compose>
-			<fetch type="proxy" cookies="managed">
-				<set host="${origin_site_hostname}" connection-host="${origin_site_host}" />
-			</fetch>
-		</compose>
+	<rule name="user.managed" comment="Managed Cookie Processor" match-path="">
+		<apply name="framework.managed.proxy_edited" />
+
+		<!-- Pages matched by this rule will respect any cookies delivered or set during the request and response. -->
+
+		<!-- While you can put page edits here, it is better to put them in user.page_edits -->
+
 	</rule>
 
+	<rule name="user.nocache" comment="No cache processor" match-path-re="">
+		<apply name="framework.proxy_edited" />
 
-	<rule name="drupal.page_builder" comment="Standard content edits">
-		<compose>
-			<deliver if="document.contentType.indexOf('image') != -1" />
-			<replace regex="//${origin_site_hostname}" value="//${request_host}" />
-		</compose>
+		<set-cache maximum-age="0" aggressive="false" />
+
+		<!-- While you can put page edits here, it is better to put them in user.page_edits -->
+
 	</rule>
 
+	<rule name="user.default" comment="Generic Page Processor"  match="*">
+		<apply name="framework.proxy_edited" />
 
-	<rule name="drupal.page_builder.user" comment="Custom user page edits">
-		<compose>
-			<deliver if="document.contentType != 'text/html' || document.responseCode != 200" />
-			<!-- Put any custom HTML page edits here -->
-		</compose>
-	</rule>
+		<!-- While you can put page edits here, it is better to put them in user.page_edits -->
 
-
-	<rule name="drupal.nocache" comment="Do not cache these pages." match-path="">
-		<apply name="drupal.proxy" />
-	</rule>
-
-
-	<rule name="drupal.managed" comment="These pages need cookies to operate correctly" match-path="">
-		<apply name="drupal.proxy.managed" />
-	</rule>
-
-
-	<rule name="drupal.default" comment="Default catch all rule" match="*">
-		<apply name="drupal.proxy" />
 	</rule>
 
 </resource>

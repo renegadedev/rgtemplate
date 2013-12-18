@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+
+<resource xmlns="http://schema.modapt.com/pub/modapt-resource/1.0">
+
+	<!-- This file is the place to put configuration variables. Everything you should need
+	to change about how a site works is located here. -->
+
+	<rule name="config.init" comment="Initialize the project">
+
+		<prerequisite>
+
+		  <!-- ESSENTIALS =================================================
+			   The following are required to make your site work.
+			-->
+
+		  <!-- This is the host location of the original website.
+		       Use the DNS name    IF you are adapting your site or creating a mobile site or CDN.
+	           Use the IP for origin_site_host IF you are going to be pointing your main DNS to Renegade.
+	       -->
+
+	       <defmac name="origin_site_hostname" value="www.yousite.com"/>
+	       <defmac name="origin_site_host" value="50.18.112.128" />
+
+		  <!-- PERFORMANCE OPTIONS ========================================
+			   Extra features that will improve your site.
+			-->
+
+		  <!-- Asset servers are servers OTHER than your main site which will benefit if they are aggregated
+			   and served via renegade.  For example, if you have media stored somewhere else, or want to
+			   eliminate DNS lookups for code storage sites. -->
+
+		   	<!--<defmac name="asset_servers" value="apis.google.com, *.googleapis.com"/>-->
+		   	<defmac name="asset_servers" value=""/>
+
+		  <!--
+		       OTHER SETTINGS =============================================
+			   Usually you won't need to change these.
+			-->
+
+		  <!-- Cache lifetimes are set here to make sure that assets of various types are
+			   held in Renegade's front-side cache for the right amount of time.   Times
+			   are specified as a number of seconds.
+
+			   cache_assets includes things like Javascript and CSS
+			   cache_pages is how long HTML pages themselves will be cached.
+			-->
+
+			<defmac name="cache_images" value="86400"/>
+			<defmac name="cache_assets" value="86400"/>
+			<defmac name="cache_pages" value="7200"/>
+
+		</prerequisite>
+
+	</rule>
+
+</resource>
