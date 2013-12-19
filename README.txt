@@ -1,4 +1,4 @@
-This project contacts Renegade application templates to be used with various content management systems.
+This project contains Renegade application templates to be used with various content management systems.
 
 About Renegade
 The Renegade Platform is a new breed of content delivery system. It is the first solution in this space that is user-programmable. Its’ ability to place a user’s code at the edge makes it possible to realize optimal performance. This gives web developers a multi- functional, easy-to-implement website enhancement solution that increases delivery speed, adapts, modifies, compresses and caches all in one, with no requirement to touch the existing code. For sites that have serious traffic, hard to predict traffic spikes, or an overburdened CMS, the Renegade platform is an ideal solution.
