@@ -37,6 +37,24 @@
 
 	</rule>
 
+	<!--
+	Redirect requests to /notfound to /404. This demonstrates how to set the
+	response Location header and document response code.
+	-->
+	<rule name="user.404" comment="Redirect to 404 page" match-path="/notfound">
+		<prerequisite>
+			<!--
+			While the location header is set below in the script
+			element, it could also be set using the header element.
+			<header name="Location" action="set" value="/404" />
+			-->
+			<script>
+				dombuf.headers.setHeader('Location', '/404');
+				document.responseCode = 302;
+			</script>
+		</prerequisite>
+	</rule>
+
 	<rule name="user.default" comment="Generic Page Processor"  match="*">
 		<apply name="framework.proxy_edited" />
 
