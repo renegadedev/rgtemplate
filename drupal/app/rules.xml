@@ -19,29 +19,10 @@
 	</rule>
 
 
-	<rule name="user.managed" comment="Managed Cookie Processor" match-path="">
-		<apply name="framework.managed.proxy_edited" />
-
-		<!-- Pages matched by this rule will respect any cookies delivered or set during the request and response. -->
-
-		<!-- While you can put page edits here, it is better to put them in user.page_edits -->
-
-	</rule>
-
-	<rule name="user.nocache" comment="No cache processor" match-path-re="">
-		<apply name="framework.proxy_edited" />
-
-		<set-cache maximum-age="0" aggressive="false" />
-
-		<!-- While you can put page edits here, it is better to put them in user.page_edits -->
-
-	</rule>
-
 	<!--
-	Redirect requests to /notfound to /404. This demonstrates how to set the
-	response Location header and document response code.
+	Utility rule which can be used to redirect the response to /404.
 	-->
-	<rule name="user.404" comment="Redirect to 404 page" match-path="/notfound">
+	<rule name="user.404" comment="Redirect to 404 page">
 		<prerequisite>
 			<!--
 			While the location header is set below in the script
@@ -54,6 +35,36 @@
 			</script>
 		</prerequisite>
 	</rule>
+
+
+	<rule name="user.managed" comment="Managed Cookie Processor" match-path="">
+		<apply name="framework.managed.proxy_edited" />
+
+		<!-- Pages matched by this rule will respect any cookies delivered or set during the request and response. -->
+
+		<!-- While you can put page edits here, it is better to put them in user.page_edits -->
+
+	</rule>
+
+
+	<rule name="user.nocache" comment="No cache processor" match-path-re="">
+		<apply name="framework.proxy_edited" />
+
+		<set-cache maximum-age="0" aggressive="false" />
+
+		<!-- While you can put page edits here, it is better to put them in user.page_edits -->
+
+	</rule>
+
+
+	<!--
+	Redirect requests coming into /notfound to /404.
+	This demonstrates how to apply a separate utility rule.
+	-->
+	<rule comment="Redirect to 404 page" match-path="/notfound">
+		<apply name="user.404" />
+	</rule>
+
 
 	<rule name="user.default" comment="Generic Page Processor"  match="*">
 		<apply name="framework.proxy_edited" />
